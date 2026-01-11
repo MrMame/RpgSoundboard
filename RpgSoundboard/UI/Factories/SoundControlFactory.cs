@@ -1,9 +1,12 @@
 ﻿using Microsoft.Win32;
 using RpgSoundboard.Models.Configs;
+using RpgSoundboard.Models.Sound;
+using RpgSoundboard.ViewModels.Sound;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace RpgSoundboard.UI.Factories;
@@ -14,19 +17,21 @@ public class SoundControlFactory
          // -------------------------------
          // SOUND CONTROL ERZEUGEN
          // -------------------------------
-        public static UIElement CreateSoundControl (string defaultTitle)
+        public static UIElement CreateSoundControl (SoundSlot soundSlot)
         {
         StackPanel container = new StackPanel { Margin = new Thickness (10), Width = 150 };
+        container.DataContext = new SoundSlotViewModel(soundSlot);
+
         MediaPlayer player = new MediaPlayer ();
         string selectedFilePath = "";
 
         Button playBtn = new Button
         {
-            Content = "▶ " + defaultTitle,
             Height = 50,
             Background = Brushes.DarkRed,
             Foreground = Brushes.White
         };
+        playBtn.SetBinding (Button.ContentProperty, "Title");
 
         Grid controlsGrid = new Grid ();
         controlsGrid.RowDefinitions.Add (new RowDefinition ());
@@ -38,8 +43,10 @@ public class SoundControlFactory
         {
             Content = "Loop",
             Foreground = Brushes.White,
-            Margin = new Thickness (0, 5, 0, 5)
+            Margin = new Thickness (0, 5, 0, 5),
         };
+        loopCheck.SetBinding (CheckBox.IsCheckedProperty,"Loop");
+
         Grid.SetRow (loopCheck, 0);
         Grid.SetColumn (loopCheck, 0);
         controlsGrid.Children.Add (loopCheck);
@@ -63,8 +70,7 @@ public class SoundControlFactory
             if (openFileDialog.ShowDialog () == true)
             {
                 selectedFilePath = openFileDialog.FileName;
-                playBtn.Content = "▶ " + System.IO.Path.GetFileNameWithoutExtension (selectedFilePath);
-                SetSoundFilePath (container, selectedFilePath);
+                playBtn.Content = System.IO.Path.GetFileNameWithoutExtension (selectedFilePath);
             }
         };
 
@@ -109,21 +115,22 @@ public class SoundControlFactory
     // -------------------------------
     // SOUND CONTROL AUS CONFIG
     // -------------------------------
-    public static UIElement CreateSoundControlFromConfig (SoundSlotConfig cfg)
+    public static UIElement CreateSoundControlFromConfig (SoundSlot soundSlot)
     {
-        var control = CreateSoundControl (cfg.Title);
+      
+        var control = CreateSoundControl (soundSlot);
 
         var container = (StackPanel)control;
         var playBtn = (Button)container.Children[0];
         var grid = (Grid)container.Children[1];
         var loopCheck = (CheckBox)grid.Children[0];
 
-        loopCheck.IsChecked = cfg.Loop;
+        loopCheck.IsChecked = soundSlot.Loop;
 
-        if (!string.IsNullOrEmpty (cfg.FilePath))
-            playBtn.Content = "▶ " + System.IO.Path.GetFileNameWithoutExtension (cfg.FilePath);
+        if (!string.IsNullOrEmpty (soundSlot.FilePath))
+            playBtn.Content = "▶ " + System.IO.Path.GetFileNameWithoutExtension (soundSlot.FilePath);
 
-        SetSoundFilePath (container, cfg.FilePath);
+        SetSoundFilePath (container, soundSlot.FilePath);
 
         return control;
     }

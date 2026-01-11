@@ -11,7 +11,7 @@ namespace RpgSoundboard.ViewModels.Sound
 {
     internal class SoundCollectionsViewModel : INotifyPropertyChanged
     {
-        private SoundCollection _soundCollection = new SoundCollection();
+        private SoundCollection _soundCollection;
 
         public SoundCollection SoundCollection
         {
@@ -25,6 +25,11 @@ namespace RpgSoundboard.ViewModels.Sound
                     OnPropertyChanged ();
                 }
             }
+        }
+
+        public SoundCollectionsViewModel(SoundCollection soundCollection)
+        {
+            _soundCollection = soundCollection;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

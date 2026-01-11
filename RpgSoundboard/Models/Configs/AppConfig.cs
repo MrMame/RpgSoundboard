@@ -1,7 +1,9 @@
-﻿namespace RpgSoundboard.Models.Configs
+﻿using RpgSoundboard.Models.Sound;
+
+namespace RpgSoundboard.Models.Configs
 {
     public class AppConfig
     {
-        public List<SoundCollectionConfig> Collections { get; set; } = new ();
+        public List<SoundCollection> Collections { get; set; } = new ();
     }
 }

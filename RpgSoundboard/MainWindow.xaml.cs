@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using RpgSoundboard.Models.Configs;
+using RpgSoundboard.Models.Sound;
 using RpgSoundboard.Services;
 using RpgSoundboard.UI.Factories;
 using System;
@@ -55,7 +56,7 @@ namespace RpgSoundboard
             _config.Collections.Clear ();
             foreach (TabItem tab in SoundCollectionsTabControl.Items)
             {
-                var col = new SoundCollectionConfig
+                var col = new SoundCollection
                 {
                     Name = tab.Header.ToString ()
                 };
@@ -65,7 +66,7 @@ namespace RpgSoundboard
                     var playBtn = (Button)slot.Children[0];
                     var grid = (Grid)slot.Children[1];
                     var loopCheck = (CheckBox)grid.Children[0];
-                    col.Slots.Add (new SoundSlotConfig
+                    col.Slots.Add (new SoundSlot
                     {
                         Title = playBtn.Content.ToString ().Replace ("▶ ", ""),
                         FilePath = SoundControlFactory.GetSoundFilePath (slot),

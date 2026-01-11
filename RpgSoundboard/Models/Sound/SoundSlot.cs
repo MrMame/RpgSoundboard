@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RpgSoundboard.Models.Sound
 {
-    internal class SoundSlot
+    public class SoundSlot
     {
         public string Title { get; set; }
         public string FilePath { get; set; }

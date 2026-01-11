@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace RpgSoundboard.Models.Sound
 {
-    internal class SoundCollection
+    public class SoundCollection
     {
+        public string Name { get; set; }
+        public List<SoundSlot> Slots { get; set; } = new ();
+
     }
 }

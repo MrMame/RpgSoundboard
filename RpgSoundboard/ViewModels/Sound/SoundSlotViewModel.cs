@@ -12,7 +12,7 @@ namespace RpgSoundboard.ViewModels.Sound
     internal class SoundSlotViewModel : INotifyPropertyChanged
     {
 
-        private SoundSlot _soundSlot = new SoundSlot();
+        private SoundSlot _soundSlot;
 
         public string Title { 
             get => _soundSlot.Title;
@@ -40,6 +40,9 @@ namespace RpgSoundboard.ViewModels.Sound
             }
         }
 
+        public SoundSlotViewModel (SoundSlot soundSlot) {
+            _soundSlot = soundSlot;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
