@@ -20,6 +20,12 @@
                     <Separator/>
                     <MenuItem Header="_Del Active" Click="DelActCollection_Click"/>
                 </MenuItem>
+                <MenuItem Header="_Config" Foreground="White" BorderThickness="0,0,0,0">
+                    <MenuItem Header="_Save Config" Click="SaveConfig_Click"/>
+                    <Separator/>
+                    <MenuItem Header="_Load Config" Click="LoadConfig_Click"/>
+                </MenuItem>
+
             </Menu>
             <TabControl x:Name="SoundCollectionsTabControl" Background="#3D3D3D" Foreground="White">
                 <TabItem Header="Dungeon">

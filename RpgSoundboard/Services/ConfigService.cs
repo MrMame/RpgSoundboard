@@ -15,14 +15,14 @@ namespace RpgSoundboard.Services
         private AppConfig Config = new AppConfig ();
 
 
-        public AppConfig LoadConfig (string ConfigPath)
+        public AppConfig LoadConfig (string configPath)
         {
-            if (!File.Exists (ConfigPath))
+            if (!File.Exists (configPath))
                 return new AppConfig (); ;
 
             try
             {
-                string json = File.ReadAllText (ConfigPath);
+                string json = File.ReadAllText (configPath);
                 return JsonSerializer.Deserialize<AppConfig> (json);
             } catch
             {
@@ -33,38 +33,38 @@ namespace RpgSoundboard.Services
         // -------------------------------
         // CONFIG SPEICHERN
         // -------------------------------
-        private void SaveConfig ()
+        public void SaveConfig (string configPath, AppConfig config)
         {
-            Config.Collections.Clear ();
+            //Config.Collections.Clear ();
 
-            foreach (TabItem tab in SoundCollectionsTabControl.Items)
-            {
-                var col = new SoundCollectionConfig
-                {
-                    Name = tab.Header.ToString ()
-                };
+            //foreach (TabItem tab in SoundCollectionsTabControl.Items)
+            //{
+            //    var col = new SoundCollectionConfig
+            //    {
+            //        Name = tab.Header.ToString ()
+            //    };
 
-                var panel = (StackPanel)tab.Content;
+            //    var panel = (StackPanel)tab.Content;
 
-                foreach (StackPanel slot in panel.Children)
-                {
-                    var playBtn = (Button)slot.Children[0];
-                    var grid = (Grid)slot.Children[1];
-                    var loopCheck = (CheckBox)grid.Children[0];
+            //    foreach (StackPanel slot in panel.Children)
+            //    {
+            //        var playBtn = (Button)slot.Children[0];
+            //        var grid = (Grid)slot.Children[1];
+            //        var loopCheck = (CheckBox)grid.Children[0];
 
-                    col.Slots.Add (new SoundSlotConfig
-                    {
-                        Title = playBtn.Content.ToString ().Replace ("▶ ", ""),
-                        FilePath = GetSoundFilePath (slot),
-                        Loop = loopCheck.IsChecked == true
-                    });
-                }
+            //        col.Slots.Add (new SoundSlotConfig
+            //        {
+            //            Title = playBtn.Content.ToString ().Replace ("▶ ", ""),
+            //            FilePath = GetSoundFilePath (slot),
+            //            Loop = loopCheck.IsChecked == true
+            //        });
+            //    }
 
-                Config.Collections.Add (col);
-            }
+            //    Config.Collections.Add (col);
+            //}
 
-            string json = JsonSerializer.Serialize (Config, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText (ConfigPath, json);
+            string json = JsonSerializer.Serialize (config, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText (configPath, json);
         }
 
     }

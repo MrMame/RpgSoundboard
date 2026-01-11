@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using RpgSoundboard.Models.Configs;
+using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,7 +65,6 @@ public class SoundControlFactory
                 selectedFilePath = openFileDialog.FileName;
                 playBtn.Content = "▶ " + System.IO.Path.GetFileNameWithoutExtension (selectedFilePath);
                 SetSoundFilePath (container, selectedFilePath);
-                SaveConfig ();
             }
         };
 
@@ -104,6 +105,50 @@ public class SoundControlFactory
 
         return container;
     }
+
+    // -------------------------------
+    // SOUND CONTROL AUS CONFIG
+    // -------------------------------
+    public static UIElement CreateSoundControlFromConfig (SoundSlotConfig cfg)
+    {
+        var control = CreateSoundControl (cfg.Title);
+
+        var container = (StackPanel)control;
+        var playBtn = (Button)container.Children[0];
+        var grid = (Grid)container.Children[1];
+        var loopCheck = (CheckBox)grid.Children[0];
+
+        loopCheck.IsChecked = cfg.Loop;
+
+        if (!string.IsNullOrEmpty (cfg.FilePath))
+            playBtn.Content = "▶ " + System.IO.Path.GetFileNameWithoutExtension (cfg.FilePath);
+
+        SetSoundFilePath (container, cfg.FilePath);
+
+        return control;
+    }
+
+    // -------------------------------
+    // ATTACHED PROPERTY: FILEPATH
+    // -------------------------------
+    public static readonly DependencyProperty SoundFilePathProperty =
+        DependencyProperty.RegisterAttached (
+            "SoundFilePath",
+            typeof (string),
+            typeof (MainWindow),
+            new PropertyMetadata ("")
+        );
+
+    public static void SetSoundFilePath (UIElement element, string value)
+    {
+        element.SetValue (SoundFilePathProperty, value);
+    }
+
+    public static string GetSoundFilePath (UIElement element)
+    {
+        return (string)element.GetValue (SoundFilePathProperty);
+    }
+
 
 
 }

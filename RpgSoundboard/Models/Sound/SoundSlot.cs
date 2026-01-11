@@ -8,5 +8,8 @@ namespace RpgSoundboard.Models.Sound
 {
     internal class SoundSlot
     {
+        public string Title { get; set; }
+        public string FilePath { get; set; }
+        public bool Loop { get; set; }
     }
 }
