@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using RpgSoundboard.Models.Configs;
 using RpgSoundboard.Models.Sound;
-using RpgSoundboard.ViewModels.Sound;
+using RpgSoundboard.UI.ViewModels.Sound;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
